@@ -11,8 +11,12 @@ namespace API_web.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Image> Images { get; set; }
-        public DbSet<Rating> ratings { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<CategoryProduct> CategoryProduct { get; set; }
         #endregion
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CategoryProduct>().HasKey(cp => new { cp.CategoryId, cp.ProductId });
+        }
     }
 }

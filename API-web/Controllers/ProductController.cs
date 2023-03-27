@@ -1,7 +1,10 @@
 ﻿using API_web.Data;
 using API_web.Interfaces;
+using API_web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SharedCommonModel;
+using SharedCommonModel.Admin;
 using SharedCommonModel.Product;
 
 namespace API_web.Controllers
@@ -19,6 +22,24 @@ namespace API_web.Controllers
             _productService= productService;
         }
 
+        //get all products admin
+        [HttpGet]
+        public async Task<ActionResult<List<ProductAdmin>>> GetAllProductsAdmin()
+        {
+            try
+            {
+                var ListPro = await _productService.GetAllProductsAdminAsync();
+                return Ok(ListPro);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+
+        }
+
+        //get all products
         [HttpPost("all-products")]
         public async Task<ActionResult<ProductPagingDto>> GetAllProductsPaingAsync([FromBody]PagingRequestDto pagingRequestDto)
         {
@@ -29,15 +50,15 @@ namespace API_web.Controllers
         [HttpGet("{Id}")]
         public async Task<ActionResult<ProductDto>> GetProductByIdAsync(int Id)
         {
-            try 
-            {
                 var product = await _productService.GetProductByIdAsync(Id);
-                return Ok(product);
-            }
-            catch (Exception ex) 
-            {
-                return BadRequest();
-            }
+
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                return product;
+
         }
 
         [HttpPost("search-product")]
@@ -52,6 +73,55 @@ namespace API_web.Controllers
         {
             var products = await _productService.GetProductByCategoryIdAsync(pagingRequestDto);
             return Ok(products);
+        }
+
+
+        //admin
+        [HttpPost]
+        public async Task<ActionResult<Product>> PostProduct(Product product)
+        {
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetProductByIdAsync", new { id = product.Id }, product);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutProduct(int id, Product product)
+        {
+            if (id != product.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(product).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                    return NotFound();                
+            }
+
+            return NoContent();
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

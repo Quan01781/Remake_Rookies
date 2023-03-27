@@ -17,9 +17,7 @@ namespace API_web.Models
         public DateTime? UpdateDate { get; set; }
         public string? ImageUrl { get; set; }
         public ICollection<Image>? Images { get; set; }
-        [ForeignKey("CategoryId")]
-        public int? CategoryId { get; set; }
-        public ICollection<Category>? Categories { get; set; }
+        public ICollection<CategoryProduct>? CategoryProduct { get; set; }
         public ICollection<Rating>? Ratings { get; set; } 
     }
 }

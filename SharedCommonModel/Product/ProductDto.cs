@@ -19,7 +19,6 @@ namespace SharedCommonModel.Product
         public DateTime? CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public List<ImageDto>? Images { get; set; }
-        public List<CategoryDto>? Categories { get; set; }
         public List<RatingDto>? Ratings { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using API_web.Interfaces;
 using API_web.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedCommonModel;
 using SharedCommonModel.Admin;
@@ -23,9 +24,28 @@ namespace API_web.Repositories
             _categoryRepository = categoryRepository;
         }
 
-        public Task<List<ProductAdmin>> GetAllProductsAdminAsync()
+        public async Task<List<ProductAdmin>> GetAllProductsAdminAsync()
         {
-            throw new NotImplementedException();
+            var products = await _context.Products
+            .Include(p => p.Images)
+            .OrderByDescending(p => p.Id)
+            .ToListAsync();
+            var productAdmin = _mapper.Map<List<Product>, List<ProductAdmin>>(products);
+            return productAdmin ?? new List<ProductAdmin>();
+        }
+
+        public async Task<ActionResult<ProductAdmin>> GetProductAdminAsync(int id)
+        {
+            ProductAdmin productAdmin = new ProductAdmin();
+            var product = await _context.Products
+                .Where(e => e.Id == id)
+                .Include(c => c.Images)
+                .FirstOrDefaultAsync();
+            if (product != null)
+            {
+                productAdmin = _mapper.Map<Product, ProductAdmin>(product);
+            }
+            return productAdmin;
         }
 
         public async Task<ProductPagingDto> GetAllProductsPaingAsync(PagingRequestDto pagingRequestDto)
@@ -57,9 +77,9 @@ namespace API_web.Repositories
         {
             ProductPagingDto productPagingDto = new ProductPagingDto();
             List<Product> Listproducts = new List<Product>();
-            productPagingDto.totalCount = await _context.Products.Where(p => p.CategoryId == pagingRequestDto.id).CountAsync();
+            productPagingDto.totalCount = await _context.Products.Include(p => p.CategoryProduct.Where(p => p.CategoryId == pagingRequestDto.id)).CountAsync();
             var products = _context.Products
-                .Where(p => p.CategoryId == pagingRequestDto.id)
+                .Include(p => p.CategoryProduct.Where(p => p.CategoryId == pagingRequestDto.id))
                 .Skip(pagingRequestDto.pageSize * (pagingRequestDto.pageIndex - 1))
                 .Take(pagingRequestDto.pageSize)
                 .Include(c => c.Ratings).Include(c => c.Images)
@@ -85,7 +105,7 @@ namespace API_web.Repositories
             ProductDto productDto = new ProductDto();
             var product = await _context.Products
                 .Where(p=>p.Id == Id)
-                .Include(c => c.Categories)
+                //.Include(c => c.Categories)
                 .Include(r => r.Ratings)
                 .Include(i => i.Images)
                 .Include(c => c.Ratings!.OrderByDescending(r => r.Id)).FirstOrDefaultAsync();

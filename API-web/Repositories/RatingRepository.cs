@@ -23,11 +23,12 @@ namespace API_web.Repositories
         {
             var rating = _mapper.Map<Rating>(ratingDto);
             rating.Product = await _context.Products.Where(e => e.Id == ratingDto.ProductId).FirstAsync();
-            _context.ratings.Add(rating);
+            _context.Ratings.Add(rating);
             _context.SaveChanges();
             var product = await _context.Products
                 .Where(e => e.Id == ratingDto.ProductId)
-                .Include(c => c.Categories).Include(c => c.Images!.OrderBy(i => i.DisplayOrder))
+                //.Include(c => c.Categories)
+                .Include(c => c.Images!)
                 .Include(c => c.Ratings).FirstOrDefaultAsync();
             var productDto = _mapper.Map<ProductDto>(product);
             
