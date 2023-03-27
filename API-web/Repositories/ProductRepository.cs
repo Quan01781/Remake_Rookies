@@ -4,6 +4,7 @@ using API_web.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SharedCommonModel;
+using SharedCommonModel.Admin;
 using SharedCommonModel.Product;
 using System.Linq;
 
@@ -21,6 +22,12 @@ namespace API_web.Repositories
             _mapper = mapper;
             _categoryRepository = categoryRepository;
         }
+
+        public Task<List<ProductAdmin>> GetAllProductsAdminAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ProductPagingDto> GetAllProductsPaingAsync(PagingRequestDto pagingRequestDto)
         {
             ProductPagingDto productPagingDto = new ProductPagingDto();

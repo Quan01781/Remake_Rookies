@@ -3,6 +3,7 @@ using API_web.Interfaces;
 using API_web.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SharedCommonModel.Admin;
 using SharedCommonModel.Category;
 
 namespace API_web.Repositories
@@ -23,6 +24,26 @@ namespace API_web.Repositories
             var categories = await _context.Categories.ToListAsync();
             var categoriesDto = _mapper.Map<List<Category>,List<CategoryDto>>(categories);
             return categoriesDto;
+        }
+
+        public Task<List<CategoryAdmin>> GetCategoriesAdminAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> PostCategoryAsync(Category category)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> PutCategoryAsync(Category category)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeletedCategoryAsync(List<int> ids)
+        {
+            throw new NotImplementedException();
         }
     }
 }
