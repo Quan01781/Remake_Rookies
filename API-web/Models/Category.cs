@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using API_web.Abstract;
+using System.ComponentModel.DataAnnotations;
 
 namespace API_web.Models
 {
-    public class Category
+    public class Category : Auditable
     {
         [Key]
         public int Id { get; set; }

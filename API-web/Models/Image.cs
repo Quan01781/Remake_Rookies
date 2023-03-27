@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using API_web.Abstract;
+using System.ComponentModel.DataAnnotations;
 
 namespace API_web.Models
 {
-    public class Image
+    public class Image : Auditable
     {
         [Key]
         public int Id { get; set; }

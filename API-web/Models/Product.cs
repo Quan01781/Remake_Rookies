@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using API_web.Abstract;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace API_web.Models
 {
-    public class Product
+    public class Product : Auditable
     {
         [Key]
         public int Id { get; set; }
