@@ -1,0 +1,17 @@
+﻿@using SharedCommonModel.Category;
+@model List<CategoryDto>
+
+
+<ul class="dropdown-menu">
+    @{
+        foreach (var item in Model)
+        {
+            <li class="dropdown-item" style="text-align:center">
+                <a asp-page="Search" asp-route-id="@item.Id" asp-page-handler="ProductCategory" method="get" style="text-decoration:none;text-transform:capitalize;color:black">
+                    @item.Name
+                </a>
+            </li>
+        }
+    }
+</ul>
+

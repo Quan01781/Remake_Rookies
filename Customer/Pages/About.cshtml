@@ -1,0 +1,46 @@
+﻿@page
+@model Customer.Pages.AboutModel
+@{
+    string ApiUrl = "https://localhost:7255/wwwroot/upload";
+}
+
+<div class="about-us">
+    <h2 class="title">About Us</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 mt-3">
+                <h1>Welcome to <span>Floda</span> Store!</h1>
+                <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Ipsum metus feugiat sem, quis fermentum turpis eros eget velit. Donec ac tempus ante. Fusce ultricies massa massa. Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit est, sed commodo augue nisi non neque.Cras neque metus, consequat et blandit et, luctus a nunc. Etiam gravida vehicula tellus, in imperdiet ligula euismod eget. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam erat mi, rutrum at sollicitudin rhoncus "</p>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <img class="about-img" src="@ApiUrl/image/about-site/about-us-img.png">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="service">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-xs-6 col-6 text-center">
+                <img class="service-img" src="@ApiUrl/image/3service/fast.png">
+                <h3>FAST SERVICE</h3>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-6 col-6 text-center">
+                <img class="service-img" src="@ApiUrl/image/3service/24ser.png">
+                <h3>24/7 SERVICE</h3>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-6 col-6 text-center">
+                <img class="service-img" src="@ApiUrl/image/3service/great.png">
+                <h3>GREAT PRODUCTS</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="offer text-center">
+    <div class="container">
+        <h2>Special Offer</h2>
+        <p>Fresh Flowers for any special occasion</p>
+    </div>
+</div>

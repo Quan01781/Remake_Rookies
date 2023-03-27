@@ -1,0 +1,28 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    <div class="cart">
+        <h2 class="cart-title">Your cart</h2>
+        <div class="cart-content">
+            <div class="cart-box">
+                <img class="cart-img"></img>
+                <div class="detail-box">
+                    <div class="cart-product-title"></div>
+                    <div class="cart-price"></div>
+                </div>
+                @*remove*@
+                <i class="fa fa-trash cart-remove" aria-hidden="true"></i>
+
+            </div>
+        </div>
+        @*total*@
+        <div class="total">
+            <div class="total-title"></div>
+            <div class="total price"></div>
+        </div>
+        <button type="button" class="btn-buy">Buy now</button>
+        @*close*@
+        <i class="fa fa-times" aria-hidden="true" id="close-cart"></i>
+    </div>
+}

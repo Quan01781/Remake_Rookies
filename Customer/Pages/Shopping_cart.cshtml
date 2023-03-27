@@ -1,0 +1,45 @@
+﻿@page
+@model Customer.Pages.Shopping_cartModel
+@{
+}
+<div class="cart-page">
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <td>
+                <div class="cart-info">
+                    <img/>
+                    <div>
+                        <p>product name</p>
+                        <small>200000</small>
+                        <br />
+                        <i class="fa fa-trash cart-remove" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </td>
+            <td><input type="number" value="1"/></td>
+            <td>50.0000</td>
+        </tr>
+    </table>
+
+    <div class="total">
+        <table>
+            <tr>
+                <td>Subtotal</td>
+                <td>200000</td>
+            </tr>
+            <tr>
+                <td>Tax</td>
+                <td>20000</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td>2200000</td>
+            </tr>
+        </table>
+    </div>
+</div>
