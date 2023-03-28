@@ -10,8 +10,8 @@ namespace API_web.Interfaces
     {
         public Task<List<CategoryDto>> GetAllCategoryAsync();
         public Task<List<CategoryAdmin>> GetCategoriesAdminAsync();
-        public Task<Boolean> PostCategoryAsync(Category category);
-        public Task<Boolean> PutCategoryAsync(Category category);
+        public Task<Boolean> PostCategoryAsync(CategoryAdmin category);
+        public Task<Boolean> PutCategoryAsync(CategoryAdmin category);
         public Task<Boolean> DeletedCategoryAsync(int id);
     }
 }

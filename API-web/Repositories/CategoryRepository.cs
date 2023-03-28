@@ -22,25 +22,26 @@ namespace API_web.Repositories
 
         public async Task<List<CategoryDto>> GetAllCategoryAsync()
         {
-            var categories = await _context.Categories.ToListAsync();
+            var categories = await _context.Categories.OrderBy(c => c.Id).ToListAsync();
             var categoriesDto = _mapper.Map<List<Category>,List<CategoryDto>>(categories);
             return categoriesDto;
         }
 
         public async Task<List<CategoryAdmin>> GetCategoriesAdminAsync()
         {
-            var categories= await _context.Categories.OrderByDescending(c=>c.Id).ToListAsync();
+            var categories= await _context.Categories.OrderBy(c=>c.Id).ToListAsync();
             var categoriesAdmin = _mapper.Map<List<Category>,List<CategoryAdmin>>(categories);
             return categoriesAdmin;
         }
 
-        public async Task<bool> PostCategoryAsync(Category category)
+        public async Task<bool> PostCategoryAsync(CategoryAdmin categoryAdmin)
         {
             try
             {
-                //category.CreateDate = DateTime.Now;
-                //category.CreateBy = "Admin";
+                categoryAdmin.Create_Date = DateTime.Now;
+                categoryAdmin.Create_By = "Admin";
 
+                var category = _mapper.Map<CategoryAdmin,Category>(categoryAdmin);
                 _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
 
@@ -52,13 +53,14 @@ namespace API_web.Repositories
             }
         }
 
-        public async Task<bool> PutCategoryAsync(Category category)
+        public async Task<bool> PutCategoryAsync(CategoryAdmin categoryAdmin)
         {
             try
             {
-                //category.UpdateDate = DateTime.Now;
-                //category.UpdateBy = "Admin";
+                categoryAdmin.Update_Date = DateTime.Now;
+                categoryAdmin.Update_By = "Admin";
 
+                var category = _mapper.Map<CategoryAdmin, Category>(categoryAdmin);
                 _context.Entry(category).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return true;
@@ -71,12 +73,12 @@ namespace API_web.Repositories
 
         public async Task<bool> DeletedCategoryAsync(int id)
         {
-            var category = await _context.Categories.FirstOrDefaultAsync(c=>c.Id == id);
+            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
             try
             {
                 _context.Products.RemoveRange(_context.Products.Include(p => p.CategoryProduct.Where(cp => cp.CategoryId == id)));
                 _context.Categories.Remove(category);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return true;
             }
             catch (DbException)

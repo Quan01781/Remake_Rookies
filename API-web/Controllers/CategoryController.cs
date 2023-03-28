@@ -23,15 +23,15 @@ namespace API_web.Controllers
         [HttpGet]
         public async Task<ActionResult<List<CategoryDto>>> GetAllCategoryAsync()
         {
-            try 
-            {
+            //try 
+            //{
                 var categories = await _categoryService.GetAllCategoryAsync();   
                 return Ok(categories);
-            }
-            catch (Exception ex) 
-            {
-                return BadRequest();
-            }
+            //}
+            //catch (Exception ex) 
+            //{
+            //    return BadRequest();
+            //}
         }
 
 
@@ -45,7 +45,7 @@ namespace API_web.Controllers
 
  
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(Category category)
+        public async Task<ActionResult<Category>> PostCategory(CategoryAdmin category)
         {
             var result = await _categoryService.PostCategoryAsync(category);
             if (result == true)
@@ -59,7 +59,7 @@ namespace API_web.Controllers
 
 
         [HttpPut]
-        public async Task<IActionResult> PutCategory(Category category)
+        public async Task<IActionResult> PutCategory(CategoryAdmin category)
         {
 
 
