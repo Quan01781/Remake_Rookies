@@ -48,7 +48,7 @@ namespace API_web.Controllers
         }
 
         [HttpGet("{Id}")]
-        public async Task<ActionResult<ProductDto>> GetProductByIdAsync(int Id)
+        public async Task<ActionResult<ProductDto>> GetProductById(int Id)
         {
                 var product = await _productService.GetProductByIdAsync(Id);
 
@@ -78,48 +78,53 @@ namespace API_web.Controllers
 
         //admin
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Product>> PostProductAsync([FromBody] ProductAdmin addProduct)
         {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            var product = await _productService.PostProductAsync(addProduct);
 
-            return CreatedAtAction("GetProductByIdAsync", new { id = product.Id }, product);
+            Category category = _context.Categories.FirstOrDefault(c => c.Id == addProduct.CategoryId);
+            CategoryProduct categoryProduct = new CategoryProduct() {
+                CategoryId = addProduct.CategoryId,
+                ProductId = product.Id,
+                Category = category,
+                Product = product,
+
+            };
+            _context.CategoryProduct.Add(categoryProduct);
+            _context.SaveChanges();
+
+            return CreatedAtAction("GetProductById", new { id = product.Id }, product);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> PutProductAsync(int Id, ProductAdmin updateProduct)
         {
-            if (id != product.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(product).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                    return NotFound();                
-            }
-
+            await _productService.PutProductAsync(Id, updateProduct);
             return NoContent();
         }
 
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        [HttpPost("add-image")]
+        public ActionResult UploadFile([FromForm] ImageDto file)
         {
-            var product = await _context.Products.FindAsync(id);
+            var result = _productService.UploadFile(file);
+            return Ok(result);
+        }
+
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteProductAsync(int Id)
+        {
+            var product = await _context.Products.FindAsync(Id);
             if (product == null)
             {
                 return NotFound();
             }
+            //List<Image> images = await _context.Images.Include(i => i.Product.Id == Id).ToListAsync();
 
+            _context.CategoryProduct.Remove(_context.CategoryProduct.First(cp => cp.ProductId == Id));
+            //_context.Images.RemoveRange(await _context.Images.Include(i => i.Products.Where));
             _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(); 
 
             return NoContent();
         }

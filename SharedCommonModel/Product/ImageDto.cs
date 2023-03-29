@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,7 @@ namespace SharedCommonModel.Product
     public class ImageDto
     {
         public int Id { get; set; }
-        public string? ImageName { get; set; }
         public string? Url { get; set; }
-        public int? DisplayOrder { get; set; }
+        public IFormFile FormFile { get; set; }
     }
 }

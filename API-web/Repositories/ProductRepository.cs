@@ -139,5 +139,58 @@ namespace API_web.Repositories
             return productPagingDto;
             
         }
+
+        //admin
+        public async Task<Product> PostProductAsync(ProductAdmin addProduct)
+        {
+            var product = _mapper.Map<ProductAdmin,Product>(addProduct);
+
+
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            
+            return product;
+        }
+
+
+        public string UploadFile(ImageDto file)
+        {
+            string fileName = file.Url;
+            if (file.FormFile != null)
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/image/product", file.Url);
+                using (Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    file.FormFile.CopyTo(stream);
+                }
+            }
+
+            var image = _mapper.Map<ImageDto,Image>(file);
+            _context.Images.Add(image);
+            _context.SaveChanges();
+            return fileName;
+
+        }
+        public async Task<bool> PutProductAsync(int Id, ProductAdmin updateProduct)
+        {
+            if (Id != updateProduct.Id)
+            {
+                return false;
+            }
+
+            var product = _mapper.Map<ProductAdmin, Product>(updateProduct);
+            _context.Entry(product).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return false;
+            }
+            
+        }
     }
 }
