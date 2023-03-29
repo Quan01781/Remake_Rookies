@@ -2,6 +2,7 @@
 using API_web.Interfaces;
 using API_web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SharedCommonModel.Admin;
 using SharedCommonModel.Category;
 
@@ -43,7 +44,15 @@ namespace API_web.Controllers
 
         }
 
- 
+        [HttpGet("{Id}")]
+        public async Task<CategoryAdmin> GetCategoryByIdAdminAsync(int Id)
+        {
+            var category = await _categoryService.GetCategoryByIdAdminAsync(Id);
+            return category;
+
+        }
+
+
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(CategoryAdmin category)
         {

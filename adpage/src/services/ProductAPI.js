@@ -3,7 +3,7 @@ const url = "https://localhost:7255/api/product/";
 // eslint-disable-next-line import/no-anonymous-default-export
 export async function GetProduct() {
   try {
-    let result = await axios.get(url+'admin/get-all-products');
+    let result = await axios.get(url);
     console.log(result);
     return result;
   } catch (error) {
@@ -24,7 +24,7 @@ export async function AddProduct(productName, productQuantity, productPrice, pro
       size: size,
       created_by: null
     };
-    let result = await axios.post(url+'add-product', product);
+    let result = await axios.post(url, product);
     console.log(result);
     return result;
   } catch (error) {
@@ -55,7 +55,7 @@ export async function UpdateProduct(productID, productName, productQuantity, pro
       size:size,
       created_by: null
     };
-    let result = await axios.put(url+`update-product/${productID}`, product);
+    let result = await axios.put(url+productID, product);
     console.log(result);
     return result;
   } catch (error) {
@@ -67,7 +67,7 @@ export async function UpdateProduct(productID, productName, productQuantity, pro
 
 export async function DeleteProduct(productID){
   try {
-    let result = await axios.delete(url+`delete-product/${productID}`);
+    let result = await axios.delete(url+productID);
     console.log(result);
     return result;
   } catch (error) {

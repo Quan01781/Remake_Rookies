@@ -141,6 +141,22 @@ namespace API_web.Repositories
         }
 
         //admin
+        public async Task<ProductAdmin> GetProductByIdAdminAsync(int Id) 
+        {
+            ProductAdmin productDto = new ProductAdmin();
+
+            var product = await _context.Products
+                .Where(p => p.Id == Id)
+                //.Include(c => c.Categories)
+                .Include(i => i.Images)
+                .FirstOrDefaultAsync();
+
+            if (product != null)
+            {
+                productDto = _mapper.Map<Product, ProductAdmin>(product);
+            }
+            return productDto;
+        }
         public async Task<Product> PostProductAsync(ProductAdmin addProduct)
         {
             var product = _mapper.Map<ProductAdmin,Product>(addProduct);

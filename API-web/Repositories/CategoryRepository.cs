@@ -34,6 +34,13 @@ namespace API_web.Repositories
             return categoriesAdmin;
         }
 
+        public async Task<CategoryAdmin> GetCategoryByIdAdminAsync(int Id) 
+        {
+            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == Id);
+            var categoryAdmin = _mapper.Map<Category, CategoryAdmin>(category);
+            return categoryAdmin;   
+        }
+
         public async Task<bool> PostCategoryAsync(CategoryAdmin categoryAdmin)
         {
             try

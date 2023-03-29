@@ -10,6 +10,7 @@ namespace API_web.Interfaces
     {
         public Task<List<CategoryDto>> GetAllCategoryAsync();
         public Task<List<CategoryAdmin>> GetCategoriesAdminAsync();
+        public Task<CategoryAdmin> GetCategoryByIdAdminAsync(int Id);
         public Task<Boolean> PostCategoryAsync(CategoryAdmin category);
         public Task<Boolean> PutCategoryAsync(CategoryAdmin category);
         public Task<Boolean> DeletedCategoryAsync(int id);

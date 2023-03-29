@@ -77,6 +77,20 @@ namespace API_web.Controllers
 
 
         //admin
+        [HttpGet("get-product-admin/{Id}")]
+        public async Task<ActionResult<ProductAdmin>> GetProductByIdAdminAsync(int Id)
+        {
+            var product = await _productService.GetProductByIdAdminAsync(Id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return product;
+
+        }
+
         [HttpPost]
         public async Task<ActionResult<Product>> PostProductAsync([FromBody] ProductAdmin addProduct)
         {

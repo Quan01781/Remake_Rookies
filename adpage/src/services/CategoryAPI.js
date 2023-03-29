@@ -3,7 +3,7 @@ const url = "https://localhost:7255/api/category/";
 // eslint-disable-next-line import/no-anonymous-default-export
 export async function GetCategory() {
   try {
-    let result = await axios.get(url);
+    let result = await axios.get(url+'admin');
     console.log(result);
     return result;
   } catch (error) {
@@ -20,7 +20,7 @@ export async function AddCategory(categoryName, categoryDescription){
       created_at: null,
       updated_at: null
     };
-    let result = await axios.post(url+'add-category', category);
+    let result = await axios.post(url, category);
     console.log(result);
     return result;
   } catch (error) {
@@ -37,7 +37,7 @@ export async function UpdateCategory(categoryName, categoryDescription, category
       created_at: null,
       updated_at: null
     };
-    let result = await axios.put(url+`update-category/${categoryID}`, category);
+    let result = await axios.put(url, categoryID, category);
     console.log(result);
     return result;
   } catch (error) {
@@ -49,7 +49,7 @@ export async function UpdateCategory(categoryName, categoryDescription, category
 
 export async function DeleteCategory(categoryID){
   try {
-    let result = await axios.delete(url+`delete-category/${categoryID}`);
+    let result = await axios.delete(url, categoryID);
     console.log(result);
     return result;
   } catch (error) {

@@ -11,9 +11,11 @@ namespace API_web.Interfaces
         public Task<ProductDto> GetProductByIdAsync(int Id);
         public Task<ProductPagingDto> GetProductBySearchAsync(PagingRequestDto pagingRequestDto);
         public Task<ProductPagingDto> GetProductByCategoryIdAsync(PagingRequestDto pagingRequestDto);
+        //admin
         public Task<List<ProductAdmin>> GetAllProductsAdminAsync();
         public Task<Product> PostProductAsync(ProductAdmin addProduct);
         public Task<bool> PutProductAsync(int Id, ProductAdmin updateProduct);
         public string UploadFile(ImageDto file);
+        public Task<ProductAdmin> GetProductByIdAdminAsync(int Id);
     }
 }
