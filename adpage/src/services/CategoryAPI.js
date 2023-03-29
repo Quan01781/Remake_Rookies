@@ -61,7 +61,7 @@ export async function DeleteCategory(categoryID){
 
 export async function GetCategoryByID(categoryID) {
   try {
-    let result = await axios.get(url+`category/${categoryID}`);
+    let result = await axios.get(url+categoryID);
     console.log(result);
     return result;
   } catch (error) {

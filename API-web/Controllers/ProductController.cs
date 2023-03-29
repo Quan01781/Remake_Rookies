@@ -77,7 +77,7 @@ namespace API_web.Controllers
 
 
         //admin
-        [HttpGet("get-product-admin/{Id}")]
+        [HttpGet("admin/product/{Id}")]
         public async Task<ActionResult<ProductAdmin>> GetProductByIdAdminAsync(int Id)
         {
             var product = await _productService.GetProductByIdAdminAsync(Id);
