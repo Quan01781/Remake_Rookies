@@ -41,7 +41,7 @@ namespace API_web.Repositories
             return categoryAdmin;   
         }
 
-        public async Task<bool> PostCategoryAsync(CategoryAdmin categoryAdmin)
+        public async Task<Category> PostCategoryAsync(CategoryAdmin categoryAdmin)
         {
             try
             {
@@ -52,15 +52,15 @@ namespace API_web.Repositories
                 _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
 
-                return true;
+                return category;
             }
             catch (DbException)
             {
-                return false;
+                return null;
             }
         }
 
-        public async Task<bool> PutCategoryAsync(CategoryAdmin categoryAdmin)
+        public async Task<Boolean> PutCategoryAsync(CategoryAdmin categoryAdmin)
         {
             try
             {
@@ -78,12 +78,12 @@ namespace API_web.Repositories
             }
         }
 
-        public async Task<bool> DeletedCategoryAsync(int id)
+        public async Task<Boolean> DeletedCategoryAsync(int id)
         {
             var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
             try
             {
-                _context.Products.RemoveRange(_context.Products.Include(p => p.CategoryProduct.Where(cp => cp.CategoryId == id)));
+                //_context.Products.RemoveRange(_context.Products.Include(p => p.CategoryProduct.Where(cp => cp.CategoryId == id)));
                 _context.Categories.Remove(category);
                 _context.SaveChanges();
                 return true;

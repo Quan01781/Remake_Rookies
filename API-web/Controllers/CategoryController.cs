@@ -12,12 +12,10 @@ namespace API_web.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly WebDbContext _context;
         private readonly ICategory _categoryService;
 
-        public CategoryController(WebDbContext context, ICategory categoryService) 
+        public CategoryController(ICategory categoryService) 
         {
-            _context = context;
             _categoryService = categoryService;
         }
 
@@ -37,7 +35,7 @@ namespace API_web.Controllers
 
 
         [HttpGet("admin")]
-        public async Task<List<CategoryAdmin>> GetCategoriesAdminAsync()
+        public async Task<ActionResult<List<CategoryAdmin>>> GetCategoriesAdminAsync()
         {
             var categories = await _categoryService.GetCategoriesAdminAsync();
             return categories;
@@ -45,7 +43,7 @@ namespace API_web.Controllers
         }
 
         [HttpGet("{Id}")]
-        public async Task<CategoryAdmin> GetCategoryByIdAdminAsync(int Id)
+        public async Task<ActionResult<CategoryAdmin>> GetCategoryByIdAdminAsync(int Id)
         {
             var category = await _categoryService.GetCategoryByIdAdminAsync(Id);
             return category;
@@ -57,11 +55,11 @@ namespace API_web.Controllers
         public async Task<ActionResult<Category>> PostCategory(CategoryAdmin category)
         {
             var result = await _categoryService.PostCategoryAsync(category);
-            if (result == true)
-                return Ok(true);
+            if (result != null)
+                return Ok(result);
             else
             {
-                return BadRequest(false);
+                return BadRequest();
             }
 
         }
