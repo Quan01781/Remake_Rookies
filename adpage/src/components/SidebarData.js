@@ -9,9 +9,5 @@ export const SidebarData =[
     title: "Product",
     path: "/product"  
   },
-  {
-    title: "Customer",
-    path: "/customer",  
-  }
   ]
 
