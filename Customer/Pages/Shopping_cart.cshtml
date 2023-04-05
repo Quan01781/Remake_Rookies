@@ -2,52 +2,49 @@
 @model Customer.Pages.Shopping_cartModel
 @{
     int stt = 1;
-    double? total = 0;
 }
 
 <div class="cart-page">
 <h2>CART</h2>
 
-    @if (@Model.cartItems.Count > 0)
+    @if (@Model.cart.Count > 0)
     {
+        <form method="post" asp-page="shopping_cart" asp-page-handler="update">
         <table>
             <tr>
                 <th>#</th>
-                <th>Product</th>
+                <th>Product</th>    
                 <th>Price</th>
-                <th>Quantity</th>
+                    <th>Quantity <input type="submit" class="fa" value="Update &#xf044;" /></th>
                 <th>Total</th>
                 <th></th>
             </tr>
-            @foreach (var cartitem in @Model.cartItems)
+            @foreach (var cartitem in @Model.cart)
             {
-                var thanhtien = cartitem.quantity * cartitem.product.Price;
-                total += thanhtien;
-
+                
                 <tr>
-                    <td>@(
-                            stt++
-                            )</td>
-                    <td>@cartitem.product.ProductName @cartitem.product.Id</td>
-                    <td>@cartitem.product.Price</td>
-                    <td><input asp-for="@cartitem.quantity" id="@($"quantity-{cartitem.product.Id}")" /></td>
-                    <td>@thanhtien</td>
-                    <td>
-                        <form method="post" asp-page="shopping_cart" asp-route-id="@cartitem.product.Id" asp-page-handler="ClearItem">
-                            <button class="btn btn-light rounded-circle" >
-                                <i class="fa fa-trash cart-remove" aria-hidden="true"></i>
-                            </button>
-                        </form>
+                    <td>@(stt++)</td>
+                    <td>@cartitem.Product.ProductName</td>
+                    <td>@cartitem.Product.Price</td>
+                    <td><input type="number" name="quantities" value="@cartitem.Quantity" min="1" style="width: 50px;" /></td>
+                    <td>$@(cartitem.Product.Price * cartitem.Quantity)</td>
+                    <td>                  
+                        <a class="btn btn-light rounded-circle" asp-page="shopping_cart" asp-route-id="@cartitem.Product.Id" asp-page-handler="delete">
+                            <i class="fa fa-trash cart-remove" aria-hidden="true"></i>
+                        </a>
+                   
                     </td>
                 </tr>
+                
             }
 
     <tr>
         <td colspan="4" style="text-align:right">Total</td>
-        <td>@total</td>
+        <td>@Model.Total</td>
         <td></td>
     </tr>
         </table>
+        </form>
     }
     else
     {

@@ -4,7 +4,7 @@ namespace Customer.Models
 {
     public class CartItem
     {
-        public int quantity { set; get; }
-        public ProductDto product { set; get; }
+        public int Quantity { set; get; }
+        public ProductDto Product { set; get; } = new ProductDto();
     }
 }

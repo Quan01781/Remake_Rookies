@@ -56,11 +56,12 @@
             </li>
             </ul>*@
         </div>
-
-        <form class="cart" asp-page="shopping_cart" asp-page-handler="AddToCart" method="post" asp-route-id="@Model.Pro.Id">
+        <button type="submit" id="abutton">
+        <a style="text-decoration:none; color:white" asp-page="shopping_cart" asp-page-handler="AddToCart" asp-route-id="@Model.Pro.Id">
             @*<input type="number" value="1" step="1" class="quantity-field text-center me-2" style="width:10%">*@
-            <button type="submit" class="button-add" id="abutton">Add to cart</button>
-        </form>
+            Add to cart
+        </a>
+        </button>
     </div>
 </div>
 

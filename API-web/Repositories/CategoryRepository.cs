@@ -54,9 +54,10 @@ namespace API_web.Repositories
 
                 return category;
             }
-            catch (DbException)
+            catch (DbException e)
             {
-                return null;
+                string ErrorString = e.Message;
+                throw;
             }
         }
 

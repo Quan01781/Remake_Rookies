@@ -6,87 +6,105 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using SharedCommonModel.Product;
 using System.Globalization;
+using Customer.Extension;
 
 namespace Customer.Pages
 {
     public class Shopping_cartModel : PageModel
     {
         private readonly IProduct _productService;
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Shopping_cartModel(IProduct productService)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             _productService = productService;
         }
 
+        public List<CartItem> cart { get; set; }
+        public double Total { get; set; } = 0;
 
-        public const string CARTKEY = "cart";
-        public List<CartItem> cartItems = new List<CartItem>();
-        internal List<CartItem> CartItems()
+        public void OnGet()
         {
-
-            var session = HttpContext.Session;
-            string jsoncart = session.GetString(CARTKEY);
-            if (jsoncart != null)
+            cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart");
+            if (cart != null)
             {
-                cartItems = JsonConvert.DeserializeObject<List<CartItem>>(jsoncart);
-                
-            }
-            return cartItems;
-        }
-
-
-        public IActionResult OnGet()
-        {
-            cartItems = CartItems();
-
-            return Page();
-        }
-
-        public IActionResult OnPostClearItem(int Id)
-        {
-            var cart = CartItems();
-            var item = cart.Find(p => p.product.Id == Id);
-            cart.Remove(item);
-            SaveCartSession(cart);
-            //cartItems = CartItems();
-            return Redirect("/Shopping_cart/");
-        }
-
-        public void SaveCartSession(List<CartItem> ls)
-        {
-            var session = HttpContext.Session;
-            string jsoncart = JsonConvert.SerializeObject(ls);
-            session.SetString(CARTKEY, jsoncart);
-        }
-
-        public ProductDto Pro = new ProductDto();
-        public async Task<IActionResult> OnPostAddToCart(int Id)
-        {
-            Pro = await _productService.GetProductByIdAsync(Id);
-
-            var cart = CartItems();
-            if (cart.Count() > 0)
-            {
-                var cartitem = cart.Find(p => p.product.Id == Id);
-                if (cartitem != null)
-                {
-                    // Đã tồn tại, tăng thêm 1
-                    cartitem.quantity++;
-                }
-                else
-                {
-                    //  Thêm mới
-                    cart.Add(new CartItem() { quantity = 1, product = Pro });
-                }
+                Total = cart.Sum(i => i.Product.Price * i.Quantity);
             }
             else
             {
-                cart.Add(new CartItem() { quantity = 1, product = Pro });
+                cart = new List<CartItem>();
             }
-            // Lưu cart vào Session
-            SaveCartSession(cart);
-            // Chuyển đến trang hiện thị Cart
-            //return RedirectToAction(nameof(Cart));
+        }
+
+
+        public async Task<IActionResult> OnGetAddToCart(int Id)
+        {
+            ProductDto productModel = new ProductDto();
+            productModel = await _productService.GetProductByIdAsync(Id);
+
+            cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart");
+            if (cart == null)
+            {
+                cart = new List<CartItem>();
+                cart.Add(new CartItem
+                {
+                    Product = productModel,
+                    Quantity = 1
+                });
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            }
+            else
+            {
+                int index = Exists(cart, Id);
+                if (index == -1)
+                {
+                    cart.Add(new CartItem
+                    {
+                        Product = productModel,
+                        Quantity = 1
+                    });
+                }
+                else
+                {
+                    cart[index].Quantity++;
+                }
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            }
+            return RedirectToPage("Shopping_cart");
+        }
+
+
+        public IActionResult OnGetDelete(int id)
+        {
+            cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart");
+            int index = Exists(cart, id);
+            cart.RemoveAt(index);
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             return Redirect("/Shopping_cart/");
+        }
+
+        public IActionResult OnPostUpdate(int[] quantities)
+        {
+            cart = SessionHelper.GetObjectFromJson<List<CartItem>>(HttpContext.Session, "cart");
+            for (var i = 0; i < cart.Count; i++)
+            {
+                cart[i].Quantity = quantities[i];
+            }
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            return RedirectToPage("Shopping_cart");
+        }
+
+        private int Exists(List<CartItem> cart, int Id)
+        {
+            for (var i = 0; i < cart.Count; i++)
+            {
+                if (cart[i].Product.Id == Id)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }

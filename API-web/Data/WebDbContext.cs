@@ -5,7 +5,9 @@ namespace API_web.Data
 {
     public class WebDbContext:DbContext
     {
-        public WebDbContext(DbContextOptions options) : base(options) { }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        public WebDbContext(DbContextOptions<WebDbContext> options) : base(options) { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         #region DbSet
         public DbSet<Category> Categories { get; set; }

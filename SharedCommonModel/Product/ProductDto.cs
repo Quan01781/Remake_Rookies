@@ -12,10 +12,10 @@ namespace SharedCommonModel.Product
     public class ProductDto
     {
         public int Id { get; set; }
-        public string? ProductName { get; set; }
-        public string? Description { get; set; }
-        public double? Price { get; set; }
-        public int? Quantity { get; set; }
+        public string ProductName { get; set; } = "";
+        public string Description { get; set; } = "";
+        public double Price { get; set; }
+        public int Quantity { get; set; } = 0;
         public DateTime? CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public List<ImageDto>? Images { get; set; }

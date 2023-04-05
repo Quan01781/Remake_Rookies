@@ -10,7 +10,7 @@ namespace SharedCommonModel.Product
     public class ImageDto
     {
         public int Id { get; set; }
-        public string? Url { get; set; }
+        public string Url { get; set; } = "";
         public IFormFile FormFile { get; set; }
     }
 }
