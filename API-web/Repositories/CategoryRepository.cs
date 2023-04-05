@@ -45,8 +45,8 @@ namespace API_web.Repositories
         {
             try
             {
-                categoryAdmin.Create_Date = DateTime.Now;
-                categoryAdmin.Create_By = "Admin";
+                categoryAdmin.Created_at = DateTime.Now;
+                categoryAdmin.Created_by = "Admin";
 
                 var category = _mapper.Map<CategoryAdmin,Category>(categoryAdmin);
                 _context.Categories.Add(category);
@@ -65,8 +65,8 @@ namespace API_web.Repositories
         {
             try
             {
-                categoryAdmin.Update_Date = DateTime.Now;
-                categoryAdmin.Update_By = "Admin";
+                categoryAdmin.Updated_at = DateTime.Now;
+                categoryAdmin.Updated_by = "Admin";
 
                 var category = _mapper.Map<CategoryAdmin, Category>(categoryAdmin);
                 _context.Entry(category).State = EntityState.Modified;

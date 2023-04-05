@@ -15,7 +15,6 @@ namespace API_web.Data
         public DbSet<Image> Images { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<CategoryProduct> CategoryProduct { get; set; }
-        //public DbSet<CartItem> CartItems { get; set; }
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

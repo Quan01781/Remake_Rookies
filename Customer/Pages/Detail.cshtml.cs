@@ -32,7 +32,7 @@ namespace Customer.Pages
                 Star = Star,
                 Message = Comment,
                 ProductId = Id,
-                CreateDate = DateTime.Now
+                Created_at = DateTime.Now
             };
 
             Pro = await _productService.PostProductRatingAsync(ratingDto);

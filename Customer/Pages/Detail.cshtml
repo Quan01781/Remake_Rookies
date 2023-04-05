@@ -106,13 +106,15 @@
 
             @foreach (var rating in @Model.Pro.Ratings)
             {
-                <div class="reviewed-content rounded-2 align-item-center m-2 ps-2">
+                <div class="reviewed-content rounded-2 align-item-center ps-2">
                     @for (int i = 0; i < rating.Star; i++)
                     {
                         <span class="fa fa-star checked"></span>
                     }
-                    <p class="">@rating.Message</p>
+                    <p>@rating.Message</p>
+                    
                 </div>
+                <p><i>@rating.Created_at</i></p>
             }
 
         </div>

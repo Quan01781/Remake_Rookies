@@ -4,12 +4,12 @@ namespace API_web.Abstract
 {
     public abstract class Auditable
     {
-        public System.DateTime? Create_Date { get; set; }
+        public DateTime? Created_at { get; set; }
 
         [MaxLength(256)]
-        public string? Create_By { get; set; }
-        public System.DateTime? Update_Date { get; set; }
+        public string? Created_by { get; set; }
+        public DateTime? Updated_at { get; set; }
         [MaxLength(256)]
-        public string? Update_By { get; set; }
+        public string? Updated_by { get; set; }
     }
 }
