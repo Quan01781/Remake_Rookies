@@ -17,6 +17,7 @@ namespace Customer.Pages
             _productService = productService;
         }
 
+
         public const string CARTKEY = "cart";
         public List<CartItem> cartItems = new List<CartItem>();
         internal List<CartItem> CartItems()
@@ -42,9 +43,10 @@ namespace Customer.Pages
 
         public IActionResult OnPostClearItem(int Id)
         {
-            var item = cartItems.Find(p => p.product.Id == Id);
-            cartItems.Remove(item);
-            SaveCartSession(cartItems);
+            var cart = CartItems();
+            var item = cart.Find(p => p.product.Id == Id);
+            cart.Remove(item);
+            SaveCartSession(cart);
             //cartItems = CartItems();
             return Redirect("/Shopping_cart/");
         }
@@ -61,9 +63,10 @@ namespace Customer.Pages
         {
             Pro = await _productService.GetProductByIdAsync(Id);
 
-            if (cartItems.Count() > 0)
+            var cart = CartItems();
+            if (cart.Count() > 0)
             {
-                var cartitem = cartItems.Find(p => p.product.Id == Id);
+                var cartitem = cart.Find(p => p.product.Id == Id);
                 if (cartitem != null)
                 {
                     // Đã tồn tại, tăng thêm 1
@@ -72,15 +75,15 @@ namespace Customer.Pages
                 else
                 {
                     //  Thêm mới
-                    cartItems.Add(new CartItem() { quantity = 1, product = Pro });
+                    cart.Add(new CartItem() { quantity = 1, product = Pro });
                 }
             }
             else
             {
-                cartItems.Add(new CartItem() { quantity = 1, product = Pro });
+                cart.Add(new CartItem() { quantity = 1, product = Pro });
             }
             // Lưu cart vào Session
-            SaveCartSession(cartItems);
+            SaveCartSession(cart);
             // Chuyển đến trang hiện thị Cart
             //return RedirectToAction(nameof(Cart));
             return Redirect("/Shopping_cart/");
