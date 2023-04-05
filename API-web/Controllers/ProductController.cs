@@ -135,7 +135,7 @@ namespace API_web.Controllers
             }
             //List<Image> images = await _context.Images.Include(i => i.Product.Id == Id).ToListAsync();
 
-            _context.CategoryProduct.Remove(_context.CategoryProduct.First(cp => cp.ProductId == Id));
+            //_context.CategoryProduct.Remove(_context.CategoryProduct.First(cp => cp.ProductId == Id));
             //_context.Images.RemoveRange(await _context.Images.Include(i => i.Products.Where));
             _context.Products.Remove(product);
             await _context.SaveChangesAsync(); 

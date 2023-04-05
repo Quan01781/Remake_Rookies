@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SharedCommonModel.Product;
 using SharedCommonModel;
 using Customer.Services.Product;
+using Customer.Models;
+using Newtonsoft.Json;
 
 namespace Customer.Pages
 {
@@ -14,6 +16,9 @@ namespace Customer.Pages
             _productService = productService;
 
         }
+
+        public const string CARTKEY = "cart";
+
         public ProductPagingDto productsNew = new ProductPagingDto();
         public async Task<IActionResult> OnGet()
         {

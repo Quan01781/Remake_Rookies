@@ -1,9 +1,52 @@
 ﻿@page
 @model Customer.Pages.Shopping_cartModel
 @{
+    int stt = 1;
+    double? total = 0;
 }
+
 <div class="cart-page">
-    <table>
+<h2>CART</h2>
+
+
+<table>
+    <tr>
+        <th>#</th>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th></th>
+    </tr>
+    @foreach (var cartitem in @Model.cartItems)
+    {
+        var thanhtien = cartitem.quantity * cartitem.product.Price;
+        total += thanhtien;
+
+        <tr>
+            <td>@(stt++)</td>
+            <td>@cartitem.product.ProductName</td>
+            <td>@cartitem.product.Price</td>
+            <td><input asp-for="@cartitem.quantity" id="@($"quantity-{cartitem.product.Id}")" /></td>
+            <td>@thanhtien</td>
+            <td>
+                <a asp-page="shopping_cart" asp-route-id="@cartitem.product.Id" asp-page-handler="ClearItem" method="post"
+                   class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+
+    <tr>
+        <td colspan="4" style="text-align:right">Total</td>
+        <td>@total</td>
+        <td></td>
+    </tr>
+</table>
+</div>
+
+
+@*<div class="cart-page">
+    <table class="cart-content">
         <tr>
             <th>Product</th>
             <th>Quantity</th>
@@ -12,34 +55,26 @@
         <tr>
             <td>
                 <div class="cart-info">
-                    <img/>
-                    <div>
-                        <p>product name</p>
-                        <small>200000</small>
-                        <br />
+                    <img class="cart-img" />
+                    <div class="cart-product-title" style="display:grid">
+                       product name
                         <i class="fa fa-trash cart-remove" aria-hidden="true"></i>
                     </div>
+                    
+
                 </div>
             </td>
-            <td><input type="number" value="1"/></td>
-            <td>50.0000</td>
+            <td><input type="number" value="1" class="cart-quantity" /></td>
+            <td><div class="cart-price">200000</div></td>
         </tr>
     </table>
 
     <div class="total">
         <table>
             <tr>
-                <td>Subtotal</td>
-                <td>200000</td>
-            </tr>
-            <tr>
-                <td>Tax</td>
-                <td>20000</td>
-            </tr>
-            <tr>
                 <td>Total</td>
-                <td>2200000</td>
+                <td class="total-price ">2200000</td>
             </tr>
         </table>
     </div>
-</div>
+</div>*@

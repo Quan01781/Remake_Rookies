@@ -53,13 +53,13 @@ td img{
     max-width:350px;
 }
 
-td:last-child {
+/*td:last-child {
     text-align:right;
-}
+}*/
 
-th:last-child {
+/*th:last-child {
     text-align:right;
-}
+}*/
 
 @media only screen and (max-width:600px) {
     .cart-info p {

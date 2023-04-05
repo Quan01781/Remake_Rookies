@@ -1,4 +1,4 @@
-using Customer.Services.Category;
+﻿using Customer.Services.Category;
 using Customer.Services.Product;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +16,11 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IProduct, ProductServices>();
 builder.Services.AddTransient<ICategory, CategoryServices>();
 
+builder.Services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
+builder.Services.AddSession(cfg => {                    // Đăng ký dịch vụ Session
+    cfg.Cookie.Name = "cartitem";             // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
+    cfg.IdleTimeout = new TimeSpan(0, 30, 0);    // Thời gian tồn tại của Session
+});
 
 var app = builder.Build();
 
@@ -33,6 +38,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapRazorPages();
 

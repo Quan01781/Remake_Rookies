@@ -19,7 +19,7 @@
 
 <div class="product-main row mt-2">
     <div class="image-product-detail large-6 col">
-        <img src="@ApiUrl/image/product/@Model.Pro.Images.FirstOrDefault().Url" alt="no image">
+        <img src="@ApiUrl/image/product/@Model.Pro.Images.First().Url" alt="no image" class="product-img">
         <div class="list-anhchitiet d-flex mb-4" style="margin-left: 2rem;">
             @if (@Model.Pro.Images.Count() > 1)
             {
@@ -32,15 +32,20 @@
         </div>
     </div>
     <div class="col col-fit">
-        <h1>@Model.Pro.ProductName</h1>
+        <h1 class="product-title">@Model.Pro.ProductName</h1>
         <div class="is-divider"></div>
         <div class="price-wrapper">
             <p class="price">
                 <span class="amount">
                     @Model.Pro.Price
                     <span class="currency"><u>đ</u></span>
-                </span>
+                </span>               
             </p>
+        </div>
+        <div>
+            <span class="">
+                <b>Quantity: </b> @Model.Pro.Quantity
+            </span>
         </div>
 
         <div>
@@ -52,9 +57,9 @@
             </ul>*@
         </div>
 
-        <form class="cart">
-            <input type="number" value="1" step="1" class="quantity-field text-center me-2" style="width:10%">
-            <button type="submit" class="button-add">Add to cart</button>
+        <form class="cart" asp-page="shopping_cart" asp-page-handler="AddToCart" method="post" asp-route-id="@Model.Pro.Id">
+            @*<input type="number" value="1" step="1" class="quantity-field text-center me-2" style="width:10%">*@
+            <button type="submit" class="button-add" id="abutton">Add to cart</button>
         </form>
     </div>
 </div>
